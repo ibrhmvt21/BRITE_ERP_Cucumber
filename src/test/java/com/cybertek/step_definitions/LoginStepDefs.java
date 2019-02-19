@@ -31,11 +31,6 @@ public class LoginStepDefs {
 
 
 
-    @Then("Logs in with {string} and {string}")
-    public void logs_in_with_and(String email, String password) {
-
-
-    }
 
     @Then("Navigates to events module")
     public void navigates_to_events_module() {
