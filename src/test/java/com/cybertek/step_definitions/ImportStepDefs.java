@@ -131,7 +131,6 @@ public class ImportStepDefs {
 
         impCrtObj.randomEvent.click();
 
-
         impCrtObj.cancelEvent.click();
 
         String actText = impCrtObj.errorMessg2.getText();

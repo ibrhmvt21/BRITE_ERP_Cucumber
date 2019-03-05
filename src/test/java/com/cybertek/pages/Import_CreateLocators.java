@@ -72,6 +72,36 @@ public class Import_CreateLocators extends BrowserUtils {
        @FindBy (xpath = "(//div[@class='o_dialog_warning modal-body'])")
        public WebElement errorMessg2;
 
+       @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[1]")
+       public WebElement organizer;
+
+        @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[2]")
+        public WebElement location;
+
+        @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[4]")
+        public WebElement responsible;
+
+        @FindBy(xpath = "(//button[@class='btn btn-sm btn-primary'])[1]")
+        public WebElement confirm1;
+
+        @FindBy(xpath = "(//div[@class='o_form_sheet'])[1]")
+        public WebElement emptyField;
+
+        @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[5]")
+        public WebElement category;
+
+        @FindBy(xpath = "(//input[@class='o_field_integer o_field_number o_field_widget o_input'])")
+        public WebElement minAttende;
+
+        @FindBy(xpath = "(//button[@class='btn btn-sm btn-default oe_highlight'])[2]")
+        public  WebElement finishEvent;
+
+        @FindBy(xpath = "//span[@name='name']")
+        public WebElement confirmText;
+
+        @FindBy(xpath = "//button[@accesskey='s']")
+        public WebElement saveBtn;
+
 
         public List<String> createText(String xPath){
                 List <WebElement> allBtnz=Driver.getDriver().findElements(By.xpath(xPath));

@@ -1,7 +1,7 @@
-@wip
+
 Feature: Test Import functionality as a user
 
-  Background:
+
 
   @BRIT-1570
   Scenario: User should NOT be able to import event
@@ -59,6 +59,6 @@ Feature: Test Import functionality as a user
 
   @BRIT-1600
   Scenario: Verify User does not have Ability to Cancel an Event
-    Given User is on the login page as a manager with "EventsCRM_Manager6@info.com" and "Ugh45wQ17" credentials
+    Given User is on the login page as a user with "EventsCRM_User6@info.com" and "opJu56KKL44" credentials
     And Navigates to events module
     Then Verify Error message is displayed when user tries to cancel an event
