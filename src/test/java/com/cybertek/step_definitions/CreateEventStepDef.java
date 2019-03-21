@@ -6,10 +6,6 @@ import com.cybertek.utilities.ExcelUtil;
 import cucumber.api.java.en.Then;
 import org.junit.Assert;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 public class CreateEventStepDef {
@@ -18,7 +14,7 @@ public class CreateEventStepDef {
     Import_CreateLocators impObj = new Import_CreateLocators();
 
     @Then("Create event with external data and verify event created")
-    public void create_event_with_external_data() throws ParseException {
+    public void create_event_with_external_data()  {
 
         impObj.createBtn.click();
 
@@ -45,20 +41,13 @@ public class CreateEventStepDef {
             impObj.responsible.sendKeys(event.get("Responsible"));
             impObj.emptyField.click();
 
-            DateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy"); // for parsing input
-            DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");  // for formatting output
-            String inputDate = event.get("Start Date");
-            Date d = df1.parse(inputDate);
-            String outputDate = df2.format(d);
+
+            String outputDate=impObj.formatDate(event.get("Start Date"));
 
             impObj.startDate.sendKeys(outputDate);
 
 
-            DateFormat df01 = new SimpleDateFormat("dd-MMM-yyyy"); // for parsing input
-            DateFormat df02 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");  // for formatting output
-            String inputDate2 = event.get("End Date");
-            Date d2 = df01.parse(inputDate);
-            String outputDate2 = df02.format(d2);
+            String outputDate2=impObj.formatDate(event.get("End Date"));
 
             impObj.endDate.sendKeys(outputDate2);
 
@@ -88,7 +77,154 @@ public class CreateEventStepDef {
         }
 
     }
+    @Then("Create event with only required field data")
+    public void create_event_with_only_required_field_data() {
+        impObj.createBtn.click();
+
+        String file = "./src/test/resources/test_data/TestDataERP.xlsx";
+        String sheet = "BRIT-4406";
+        ExcelUtil eventData = new ExcelUtil(file, sheet);
+
+        for (Map<String, String> event : eventData.getDataList()) {
+
+            impObj.eventName.sendKeys(event.get("Event_Name"));
+
+            String outputDate=impObj.formatDate(event.get("Start Date"));
+
+            impObj.startDate.sendKeys(outputDate);
 
 
+            String outputDate2=impObj.formatDate(event.get("End Date"));
 
+            impObj.endDate.sendKeys(outputDate2);
+
+            BrowserUtils.waitForClickablility(impObj.confirmEvent, 5);
+            impObj.confirmEvent.click();
+
+            BrowserUtils.waitForClickablility(impObj.finishEvent, 5);
+            impObj.finishEvent.click();
+
+            String actualText= impObj.confirmText.getText();
+            String expectedText=event.get("Event_Name");
+
+            Assert.assertEquals("Verify Event Created",expectedText,actualText);
+
+            impObj.saveBtn.click();
+
+            impObj.createBtn.click();
+        }
+    }
+    @Then("Create event with limited attendees")
+    public void create_event_with_limited_attendees() {
+        impObj.createBtn.click();
+
+        String file = "./src/test/resources/test_data/TestDataERP.xlsx";
+        String sheet = "BRIT-4407";
+        ExcelUtil eventData = new ExcelUtil(file, sheet);
+
+        for (Map<String, String> event : eventData.getDataList()) {
+            impObj.eventName.sendKeys(event.get("Event_Name"));
+
+            String outputDate=impObj.formatDate(event.get("Start Date"));
+
+            impObj.startDate.sendKeys(outputDate);
+
+
+            String outputDate2=impObj.formatDate(event.get("End Date"));
+
+            impObj.endDate.sendKeys(outputDate2);
+
+            if (!impObj.limitedAtt.isSelected())
+            impObj.limitedAtt.click();
+
+            impObj.maxSeats.sendKeys(event.get("Maximum Attendees"));
+
+            BrowserUtils.waitForClickablility(impObj.confirmEvent, 5);
+            impObj.confirmEvent.click();
+
+            BrowserUtils.waitForClickablility(impObj.finishEvent, 5);
+            impObj.finishEvent.click();
+
+            String actualText= impObj.confirmText.getText();
+            String expectedText=event.get("Event_Name");
+
+            Assert.assertEquals("Verify Event Created",expectedText,actualText);
+
+            impObj.saveBtn.click();
+
+            impObj.createBtn.click();
+        }
+    }
+
+    @Then("Create event with missing data")
+    public void create_event_with_missing_data() {
+        impObj.createBtn.click();
+
+        String file = "./src/test/resources/test_data/TestDataERP.xlsx";
+        String sheet = "BRIT-4408";
+        ExcelUtil eventData = new ExcelUtil(file, sheet);
+
+        for (Map<String, String> event : eventData.getDataList()) {
+            impObj.eventName.sendKeys(event.get("Event_Name"));
+
+            String outputDate=impObj.formatDate(event.get("Start Date"));
+
+            impObj.startDate.sendKeys(outputDate);
+
+
+            String outputDate2=impObj.formatDate(event.get("End Date"));
+
+            impObj.endDate.sendKeys(outputDate2);
+
+            BrowserUtils.waitForClickablility(impObj.confirmEvent, 5);
+            impObj.confirmEvent.click();
+
+            BrowserUtils.waitForVisibility(impObj.errorMessg, 5);
+            Assert.assertTrue(impObj.errorMessg.isDisplayed());
+
+            impObj.discard.click();
+
+            impObj.okBtn.click();
+
+            BrowserUtils.waitForClickablility(impObj.createBtn, 5);
+            impObj.createBtn.click();
+        }
+    }
+    @Then("Create event with conflicting time frame")
+    public void create_event_with_conflicting_time_frame() {
+        impObj.createBtn.click();
+
+        String file = "./src/test/resources/test_data/TestDataERP.xlsx";
+        String sheet = "BRIT-4409";
+        ExcelUtil eventData = new ExcelUtil(file, sheet);
+
+        for (Map<String, String> event : eventData.getDataList()) {
+            impObj.eventName.sendKeys(event.get("Event_Name"));
+
+            String outputDate=impObj.formatDate(event.get("Start Date"));
+
+            impObj.startDate.sendKeys(outputDate);
+
+
+            String outputDate2=impObj.formatDate(event.get("End Date"));
+
+            impObj.endDate.sendKeys(outputDate2);
+
+
+            BrowserUtils.waitForClickablility(impObj.confirmEvent, 5);
+            impObj.confirmEvent.click();
+
+            BrowserUtils.waitForVisibility(impObj.getErrorMessg3, 5);
+            Assert.assertTrue(impObj.getErrorMessg3.isDisplayed());
+
+            impObj.okBtn.click();
+
+            impObj.discard.click();
+
+            impObj.okBtn.click();
+
+            BrowserUtils.waitForClickablility(impObj.createBtn, 5);
+            impObj.createBtn.click();
+        }
+    }
 }

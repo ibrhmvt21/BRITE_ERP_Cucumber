@@ -48,6 +48,9 @@ public class Import_CreateLocators extends BrowserUtils {
         @FindBy(xpath = "//div[@class='o_notification_manager']/div")
         public WebElement errorMessg;
 
+        @FindBy(xpath = "//div[@class='o_dialog_warning modal-body']")
+        public WebElement getErrorMessg3;
+
         @FindBy(xpath = "//button[@accesskey='a']")
         public WebElement editButton;
 
@@ -56,6 +59,9 @@ public class Import_CreateLocators extends BrowserUtils {
 
         @FindBy(xpath = "(//td[@class='o_td_label'])[12]/label")
         public WebElement maxAttend;
+
+        @FindBy(xpath = "//input[@class='o_radio_input' and @data-value='limited']")
+        public WebElement limitedAtt;
 
         @FindBy(xpath = "(//div[@class='o_event_left'])[1]/div")
         public WebElement upcomingDate1;
@@ -101,6 +107,15 @@ public class Import_CreateLocators extends BrowserUtils {
 
         @FindBy(xpath = "//button[@accesskey='s']")
         public WebElement saveBtn;
+
+        @FindBy(xpath = "//input[@name='seats_max']")
+        public WebElement maxSeats;
+
+        @FindBy(xpath = "//button[@accesskey='j']")
+        public WebElement discard;
+
+        @FindBy(xpath = "//button[@class='btn btn-sm btn-primary']")
+        public WebElement okBtn;
 
 
         public List<String> createText(String xPath){
@@ -167,4 +182,21 @@ public class Import_CreateLocators extends BrowserUtils {
                 }
 
         }
+
+        public String formatDate(String inputDate)  {
+
+            DateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy"); // for parsing input
+            DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");  // for formatting output
+
+            Date d = null;
+            try {
+                d = df1.parse(inputDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String outputDate = df2.format(d);
+
+            return outputDate;
+        }
+
 }
